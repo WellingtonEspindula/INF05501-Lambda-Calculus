@@ -1,0 +1,110 @@
+let
+    -- ----------------------
+    -- funcoes definidas em aula
+    -- ----------------------
+
+	true = \x y.x;
+	false = \x y.y;
+
+	if = \a b c. a b c;
+
+	-- ops logicas
+	not = \b.b false true;
+	and = \b1 b2. if b1 b2 false;
+	or = \b1 b2. if b1 true b2;
+	
+	-- colections
+	-- pares
+	pair = \m n b. b m n;
+	fst = \p.p true;
+	snd = \p.p false;
+	swap = \p. pair (snd p) (fst p);
+	-- shiftInc = \p. pair (snd p) (succ (snd p));
+
+	-- listas
+	empty = \x. true;
+	cons = pair;
+
+	-- listas ops
+	isEmpty = \l. l(\x y.false);
+	head = fst;
+	tail = snd;
+	
+	-- combinador Y (permite recursao)
+	Y = \f.(\x.f(x x))(\x.f(x x));
+
+
+    -- ----------------------
+    -- funcoes da questao 6
+    -- ----------------------
+
+    -- a)
+    succ = \n. cons empty n;
+    -- b)
+    isZero = isEmpty;
+
+    -- c)
+    succ_church = \n. \p q. p (n p q);
+    churchify_comb = \M. \n. if isZero(n) 
+                    0 
+                    (succ_church( M (tail n) ));
+    churchify = Y churchify_comb;
+    
+    -- d)
+    add_comb = \M. \m n. if isZero(n) 
+                    m 
+                    (succ( M m (tail n) ));
+    add = Y add_comb;
+
+
+in
+    -- true expected - Passed
+    -- isZero empty
+
+    -- false expected - Passed
+    -- isZero (cons empty empty)
+
+    -- false expected - Passed
+    -- isZero (cons empty (cons empty (cons empty empty)))
+
+    -- #0 expected - Passed
+    -- churchify empty
+    
+    -- #1 expected - Passed
+    -- churchify (cons empty empty)
+    
+    -- #2 expected - Passed
+    -- churchify (cons empty (cons empty empty))
+    
+    -- #3 expected - Passed
+    -- churchify (cons empty (cons empty (cons empty empty)))
+        
+    -- #4 expected - Passed
+    -- churchify (cons empty (cons empty (cons empty (cons empty empty))))
+    
+    -- #6 expected - Passed
+    -- churchify (5 (cons empty) (cons empty empty))
+    
+    -- #9 expected - Passed
+    -- churchify (8 (cons empty) (cons empty empty))
+
+    -- #1 expected - Passed
+    -- churchify (succ empty)
+    
+    -- #2 expected - Passed
+    -- churchify (succ (cons empty empty))
+
+    -- #7 expected - Passed
+    -- churchify (succ (5 (cons empty) (cons empty empty)))
+
+    -- #0+#1 = #1 expected - Passed
+    -- churchify (add (empty) (cons empty empty))
+
+    -- #1+#0 = #1 expected - Passed
+    -- churchify (add (cons empty empty) (empty))
+
+    -- #2+#1 = #3 expected - Passed
+    -- churchify (add (cons empty (cons empty empty)) (cons empty empty))
+
+    -- #2+#2 = #4 expected - Passed
+    churchify (add (cons empty (cons empty empty)) (cons empty (cons empty empty)))
