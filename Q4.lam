@@ -1,0 +1,19 @@
+let
+	true = \x y.x;
+	false = \x y.y;
+
+	if = \a b c. a b c;
+
+	-- ops logicas
+	not = \b.b false true;
+	and = \b1 b2. if b1 b2 false;
+	or = \b1 b2. if b1 true b2;
+
+	-- ops aritmeticas
+	succ = \n. \p q. p (n p q);
+	
+	add = \m n p q. m p (n p q);
+    add2 = \m n p q. (n p) (m p q);
+
+in
+    add2 5 2
