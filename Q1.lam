@@ -1,0 +1,13 @@
+--------- 
+--------- INF05501 - Teoria da Computacao
+--------- Author: Wellington M Espindula
+---------
+
+let
+	true = \x y.x;
+	false = \x y.y;
+
+    isZero = \p a b. p (\z.b) a;
+
+in
+    isZero 1

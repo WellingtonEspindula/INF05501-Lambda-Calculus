@@ -1,0 +1,36 @@
+let
+	true = \x y.x;
+	false = \x y.y;
+
+	if = \a b c. a b c;
+
+	isZero = \n.n (\x.false) true;
+	isPos = \n. not (isZero n);
+	
+	-- colections
+	-- pares
+	pair = \m n b. b m n;
+	fst = \p.p true;
+	snd = \p.p false;
+	swap = \p. pair (snd p) (fst p);
+	shiftInc = \p. pair (snd p) (succ (snd p));
+
+	pred = \n. fst (n shiftInc (pair 0 0));
+	sub = \a b. b pred a;
+	
+	-- testes aritm
+	menor = \a b. isPos (sub b a);
+	igual = \a b. and (isZero (sub a b)) (isZero (sub b a));
+	maior = \a b. isPos (sub a b);
+	
+	-- listas
+	empty = false;
+	cons = pair;
+
+    	-- listas ops
+	isEmpty = \l. l(\x y z.false) true;
+
+in
+    -- isEmpty (cons empty (cons empty empty))
+    -- isEmpty empty
+    -- isEmpty (cons 2 empty)

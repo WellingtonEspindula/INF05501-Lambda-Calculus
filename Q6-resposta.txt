@@ -1,0 +1,21 @@
+Aqui, em texto, estão as explicações das resoluções. A resolução em si com os testes segue em anexo.
+a) Nessa questão minha ideia foi que, para criar um sucessor de um número no formato do enunciado, teria-se que adicionar um par através da operação cons com um empty e com a informação do número prévio. Assim sendo, supondo um 0 (representado por empty), o seu sucessor seria cons empty empty. De maneira análoga, são realizados os demais sucessores.
+
+succ = \n. cons empty n;
+
+
+b) 
+isZero = isEmpty;
+
+c)
+succ_church = \n. \p q. p (n p q);
+churchify_comb = \M. \n. if isZero(n)
+0
+(succ_church( M (tail n) ));
+churchify = Y churchify_comb;
+
+d)
+add_comb = \M. \m n. if isZero(n)
+m
+(succ( M m (tail n) ));
+add = Y add_comb;
